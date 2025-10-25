@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Redirigiendo...</title>
 </head>
 <body>
@@ -8,13 +9,22 @@
     <p>Redirigiendo a la aplicación...</p>
     
     <script>
-        // Construir el deep link
-        const deepLink = `tsehcen://oauth?code=07e7095d251b438594bb338e7f76d19c&state=xyzABC123`;
-        
-        console.log('Redirigiendo a:', deepLink);
-        
-        // Redirigir inmediatamente
-        window.location.href = deepLink;
+        // Leer parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const state = params.get('state') || 'xyzABC123'; // opcional: default si no viene
+
+        if (!code) {
+            document.body.innerHTML = '<h1>Error</h1><p>No se encontró el parámetro <strong>code</strong> en la URL.</p>';
+        } else {
+            // Construir deep link dinámico
+            const deepLink = `tsehcen://oauth?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`;
+            
+            console.log('Redirigiendo a:', deepLink);
+            
+            // Redirigir inmediatamente
+            window.location.href = deepLink;
+        }
     </script>
 </body>
 </html>
